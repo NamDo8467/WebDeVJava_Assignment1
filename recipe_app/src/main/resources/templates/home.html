@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/home.css}" rel="stylesheet">
+
 </head>
 <body>
     <h1>Home Page</h1>
     <h1>This is the start of our Web Page Application</h1>
+    <div>
+        <a href="/home/login">login</a>
+    </div>
 </body>
 </html>
