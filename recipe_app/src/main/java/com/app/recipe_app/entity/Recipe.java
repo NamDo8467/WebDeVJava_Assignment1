@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-@Table(name="recipes")
+@Table(name="Recipe")
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,14 +16,31 @@ public class Recipe {
     @Column
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Recipe(){
 
     }
 
-    public Recipe(String title, String description){
+//    public User getUser() {
+//        return user;
+//    }
+//
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+
+    public Recipe(String title, String description, User user){
         this.title = title;
         this.description = description;
+        this.user = user;
     }
+
+
 
     public Long getId() {
         return id;

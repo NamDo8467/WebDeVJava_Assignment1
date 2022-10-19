@@ -1,8 +1,11 @@
 package com.app.recipe_app.service;
 
 import com.app.recipe_app.entity.Recipe;
+import com.app.recipe_app.entity.User;
 import com.app.recipe_app.repository.RecipeRepository;
+import com.app.recipe_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,16 +20,19 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public List<Recipe> getAllRecipe(){
-        return recipeRepository.findAll();
+
+    public List<Recipe> getAllRecipeByUserId(Long userId) {
+        return recipeRepository.getAllByUserId(userId);
     }
 
     public void addNewRecipe(Recipe recipe) {
+
         recipeRepository.save(recipe);
+
     }
 
-    public Optional<Recipe> searchRecipe(Long id) {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
+    public Optional<Recipe> searchRecipe(Long userId, Long recipeId) {
+        Optional<Recipe> recipe = recipeRepository.getRecipeByUserIdAndId(userId, recipeId);
         return recipe;
     }
 }
