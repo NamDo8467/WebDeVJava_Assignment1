@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Recipes</h1>
+        <div>
+            <a class="h3" th:href="@{/recipes/new}">Add new recipe</a>
+        </div>
+        <div>
+            <form th:action="@{/recipes}">
+                Filter:
+                <input type="text" name="keyword" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div th:if="${message}" class="alert-success text-center">[[${message}]]</div>
+        <div>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="recipe : ${listRecipes}">
+                    <td th:text="${recipe.id}"></td>
+                    <td th:text="${recipe.title}"></td>
+                    <td th:text="${recipe.description}"></td>
+                    <td class="text-center">
+                        <a class="h4 mr-3" th:href="@{'/recipes/edit/' + ${recipe.id}}">Edit</a>
+                        <a class="h4" th:href="@{'/recipes/delete/' + ${recipe.id}}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
