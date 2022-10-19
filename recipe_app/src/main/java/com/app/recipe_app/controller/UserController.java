@@ -78,7 +78,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public String registerNewUser(@RequestBody User user){
-        System.out.println(user);
+//        System.out.println(user);
         if(Objects.equals(user.getName(), "")){
             return "name is required";
         }
