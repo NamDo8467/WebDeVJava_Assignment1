@@ -7,7 +7,10 @@ import com.app.recipe_app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+//@Controller
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -41,6 +45,15 @@ public class UserController {
 //            System.out.println(e.getMessage());
 //        }
 //    }
+
+    @GetMapping("/login")
+    public ModelAndView login(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login.html");
+        modelAndView.addObject("user", new User("namdo", "huynh"));
+
+        return modelAndView;
+    }
 
     @PostMapping("/login")
     public String login(@RequestBody User user, HttpServletResponse response){
@@ -76,19 +89,31 @@ public class UserController {
 
     }
 
+    @GetMapping("/addUser")
+    public ModelAndView registerNewUser(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("registration.html");
+        modelAndView.addObject("user", new User());
+
+
+        return modelAndView;
+
+    }
+
+
     @PostMapping("/addUser")
-    public String registerNewUser(@RequestBody User user){
-//        System.out.println(user);
-        if(Objects.equals(user.getName(), "")){
-            return "name is required";
+//    @RequestBody User user
+    public ModelAndView registerNewUser(@ModelAttribute User user){
+        ModelAndView modelAndView = new ModelAndView();
+
+        try {
+            userService.registerUser(user);
+            modelAndView.setViewName("home.html");
+
+        }catch(Exception e){
+            modelAndView.addObject("error", "Username has already been taken");
+            modelAndView.setViewName("registration.html");
         }
-        if(Objects.equals(user.getPassword(), "")){
-            return "password is required";
-        }
-        if(Objects.equals(user.getUsername(), "")){
-            return "username is required";
-        }
-        userService.registerUser(user);
-        return null;
+        return modelAndView;
     }
 }
