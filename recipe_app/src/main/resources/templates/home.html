@@ -5,26 +5,35 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link th:href="@{/home.css}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
     <h1>Home Page</h1>
-    <h1>This is the start of our Web Page Application</h1>
-    <div>
-        <a href="/home/login">Log-in</a>
-    </div>
-    <div>
-    <a href="/home/registration">Registration</a>
-    </div>
-    <div>
-        <a href="/home/view_recipe">View Recipe</a>
-    </div>
-    <div>
-        <a href="/home/view_profile">Profile</a>
-    </div>
-    <div>
-        <a href="/home/create_recipe">Create Recipe</a>
-    </div>
 
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/home/homepage">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registration.html">Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/view_profile">View Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home/create_recipe">Create Recipe</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>
