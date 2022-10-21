@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-@Table(name="Recipe")
+@Table(name="Recipes")
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +24,10 @@ public class Recipe {
 
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
+    public User getUser() {
+        return user;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -39,8 +39,6 @@ public class Recipe {
         this.description = description;
         this.user = user;
     }
-
-
 
     public Long getId() {
         return id;

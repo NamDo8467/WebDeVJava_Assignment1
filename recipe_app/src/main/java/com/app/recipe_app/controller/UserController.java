@@ -1,22 +1,20 @@
 package com.app.recipe_app.controller;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.app.recipe_app.entity.User;
 
 import com.app.recipe_app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 //@Controller
@@ -37,6 +35,7 @@ public class UserController {
     }
 
     // This method means to be deleted after the project is finished
+
 //    @GetMapping("/redirect")
 //    public void redirect(HttpServletResponse resose){
 //        try {
@@ -50,17 +49,19 @@ public class UserController {
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login.html");
-        modelAndView.addObject("user", new User("namdo", "huynh"));
-
+//      modelAndView.addObject("user", new User("namdo", "huynh"));
+        modelAndView.addObject("user", new User());
         return modelAndView;
     }
 
+    /*This method needs to be edited to best fit*/
+
     @PostMapping("/login")
-    public String login(@RequestBody User user, HttpServletResponse response){
-//        System.out.println(user.getUsername() + " " + user.getPassword());
+    public ModelAndView login(@ModelAttribute User user, HttpServletResponse response){
         Optional<User> queryUser = userService.login(user.getUsername(), user.getPassword());
+        ModelAndView modelAndView = new ModelAndView();
         if(queryUser.isPresent()){
-            System.out.println(queryUser.get().getId());
+//            System.out.println(queryUser.get().getId());
             // create a cookie
             String cookieValue = String.valueOf(queryUser.get().getId());
             Cookie cookie = new Cookie("userCredentials", cookieValue);
@@ -75,18 +76,17 @@ public class UserController {
 
             // add cookie to response
             response.addCookie(cookie);
-
             try {
                 response.sendRedirect("/recipe/all");
-                return null;
-
-            }catch(Exception e){
-                System.out.println(e.getMessage());
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
             }
-
+        }else{
+            modelAndView.setViewName("login.html");
+            modelAndView.addObject("error", "Username or password is incorrect");
+            return modelAndView;
         }
-        return "Wrong input";
-
+        return null;
     }
 
     @GetMapping("/addUser")
@@ -94,26 +94,27 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("registration.html");
         modelAndView.addObject("user", new User());
-
-
         return modelAndView;
 
     }
-
-
     @PostMapping("/addUser")
-//    @RequestBody User user
-    public ModelAndView registerNewUser(@ModelAttribute User user){
+    public ModelAndView registerNewUser(@ModelAttribute User user, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
-
         try {
             userService.registerUser(user);
-            modelAndView.setViewName("home.html");
 
-        }catch(Exception e){
-            modelAndView.addObject("error", "Username has already been taken");
+            response.sendRedirect("/user/login");
+
+        } catch(DataIntegrityViolationException e){
+            //modelAndView.addObject("error", "Username has already been taken");
+            modelAndView.getModel().put("error", "Username has already been taken");
             modelAndView.setViewName("registration.html");
+        } catch (IOException e) {
+
+//            response.sendRedirect("/user/error");
+            modelAndView.setViewName("error.html");
+            return modelAndView;
         }
-        return modelAndView;
+        return null;
     }
 }
