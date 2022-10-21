@@ -30,8 +30,14 @@ public class UserController {
 
     //This method means to be deleted after the project is finished
     @GetMapping("/all")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public ModelAndView getAllUsers(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("all_users.html");
+        System.out.println(userService.getAllUsers());
+        List<User> users = userService.getAllUsers();
+        modelAndView.addObject("users", users);
+        return modelAndView;
+//        return userService.getAllUsers();
     }
 
     // This method means to be deleted after the project is finished
@@ -107,8 +113,9 @@ public class UserController {
 
         } catch(DataIntegrityViolationException e){
             //modelAndView.addObject("error", "Username has already been taken");
-            modelAndView.getModel().put("error", "Username has already been taken");
+            modelAndView.addObject("error", "Username has already been taken");
             modelAndView.setViewName("registration.html");
+            return modelAndView;
         } catch (IOException e) {
 
 //            response.sendRedirect("/user/error");
@@ -116,5 +123,20 @@ public class UserController {
             return modelAndView;
         }
         return null;
+    }
+
+    @PostMapping("/logout")
+    public void logout(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                       HttpServletResponse response){
+        Cookie cookie = new Cookie("userCredentials", "0");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+        try{
+            response.sendRedirect("/user/login");
+        }catch(IOException e){
+//            return null;
+        }
     }
 }

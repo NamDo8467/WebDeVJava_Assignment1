@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Recipe</title>
+  <link th:href="@{/view_recipe.css}" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
-<h1>View Recipe</h1>
-
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="/home/homepage">Home</a>
@@ -17,7 +16,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/recipe/all">View All Recipes</a>
+          <a class="nav-link" href="/user/view_profile">View Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/recipe/addRecipe">Create Recipe</a>
@@ -31,21 +30,15 @@
 </nav>
 <br>
 <br>
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Recipe</th>
-    <th scope="col">Type of Meal</th>
-    <th scope="col">Description</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="recipe : ${recipes}">
-    <td th:text="${recipe.title}">1</td>
-    <td th:text="${recipe.description}">Text ...</td>
-  </tr>
-  </tbody>
-</table>
+<div class="container d-flex h-100 mx-3">
+  <div th:each="recipe:${recipes}" id="postit">
+    <span class="dot"></span>
+    <h2 style="font-style: italic;font-weight: bold">Title</h2>
+    <p th:text="${recipe.title}" class="title"></p>
+    <h2 style="font-style: italic;font-weight: bold">Description</h2>
+    <p th:text="${recipe.description}" class="description"></p>
+  </div>
+</div>
+
 </body>
 </html>
