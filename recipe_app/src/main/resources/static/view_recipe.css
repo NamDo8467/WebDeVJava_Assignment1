@@ -16,7 +16,20 @@
   background: -ms-linear-gradient(top, #fefdca 0%,#f7f381 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefdca', endColorstr='#f7f381',GradientType=0 );
   background: linear-gradient(top, #fefdca 0%,#f7f381 100%);
+  image: url("push_pin.jpg");
 }
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #FF0000;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow:0px 0px 6px 1px #333333;
+  margin-left:47%;
+  margin-right:auto;
+
+}
+
 
 .#postit ol {
   margin: 12px;
