@@ -25,6 +25,10 @@ public class User {
 
 //    private Long recipeId;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    private List<Meal> meals;
+
     public User() {
     }
 
@@ -52,6 +56,15 @@ public class User {
 
 //    public void setRecipes(List<Recipe> recipes) {
 //        this.recipes = recipes;
+//    }
+
+
+    public List<Meal> getMeal() {
+        return meals;
+    }
+
+//    public void setMeal(List<Meal> meals) {
+//        this.meals = meals;
 //    }
 
     public Long getId() {

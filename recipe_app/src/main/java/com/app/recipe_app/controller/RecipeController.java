@@ -25,7 +25,7 @@ public class RecipeController {
     @GetMapping("/all")
     public List<Recipe> findAll(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials) {
         if(userCredentials == 0){
-            System.out.println("No access");
+            System.out.println("No access from yuour end");
             return null;
         }
         return this.recipeService.getAllRecipeByUserId(userCredentials);
