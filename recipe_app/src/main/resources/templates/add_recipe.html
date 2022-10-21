@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+      <html lang="en" xmlns:th="http://www.thymeleaf.org">
+      <head>
+      <meta charset="UTF-8">
+      <title>Registration</title>
+  <link th:href="@{/registration.css}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="form-box">
+  <form method="post" action="#" th:action="@{/recipe/addRecipe}" th:object="${recipe}">
+    <!--        <p>Id: <input type="text" th:field="*{id}" /></p>-->
+    <div class="container">
+      <h1>ADD RECIPE</h1>
+      <hr>
+
+      <div th:text="${error}" class="text-danger text-center"></div>
+      <label for="title"><b>Title</b></label>
+      <input type="text" th:field="*{title}" placeholder="Title" name="title" id="title" required />
+
+      <label for="description"><b>Description</b></label>
+      <textarea th:field="*{description}" placeholder="Enter Email" id="description" cols="40" rows="10" required ></textarea>
+
+      <input hidden type="text" th:text="*{user.id}" th:field="*{user.id}"/>
+      
+      <button type="submit" class="register-btn">SIGN UP</button>
+    </div>
+    
+  </form>
+</div>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
