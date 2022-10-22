@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Recipe")
+@Table(name="Recipes")
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
