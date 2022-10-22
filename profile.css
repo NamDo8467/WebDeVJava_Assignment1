@@ -1,0 +1,59 @@
+* {box-sizing: border-box}
+
+/* Add padding to containers */
+.container {
+  padding: 1px 16px;
+}
+
+h1{
+    text-align: center;
+}
+
+.form-box{
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+label{
+    font-size: medium;
+}
+
+#myDetail {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #myDetail td, #myDetail th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #myDetail tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #myDetail tr:hover {background-color: #ddd;}
+  
+  #myDetail th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .avatar {
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    margin-left: 140px;
+    border-radius: 50%;
+  }
+
