@@ -24,7 +24,7 @@
      <a class="logo" href="/user/home"><img class="logo" th:src="@{/images/logo.png}" alt="logo" /></a>
 <!--    <a class="logo" href="/user/home"><img class="logo" src="../static/images/logo.png" alt="logo" /></a> &ndash;&gt;-->
     <form class="SearchBox" th:action="@{/recipe/searchRecipe}" method="post" th:object="${recipe}">
-        <input type="text" class="SearchBox-input" th:field="${recipe.title}" placeholder="Search by mealName...">
+        <input type="text" class="SearchBox-input" th:field="${recipe.title}" placeholder="Search by Title...">
 
         <button class="SearchBox-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">

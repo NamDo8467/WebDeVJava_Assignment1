@@ -56,8 +56,9 @@ header {
 }
 
 .logout-btn {
-	padding: 9px 25px;
+	padding: 9px 20px;
 	background-color: rgba(0, 136, 169, 1);
+	text-align: center;
 	border: none;
 	border-radius: 50px;
 	cursor: pointer;
@@ -65,8 +66,24 @@ header {
 	color: white;
 	font-family: "Oswald", sans-serif;
 	font-weight: 500;
+	font-size: 24px;
 }
 
 .logout-btn:hover {
 	background-color: rgba(0, 136, 169, 0.8);
+}
+@media only screen and (max-height: 900px) {
+	.links li {
+		display: inline-block;
+		padding: 0 15px;
+		margin-bottom: 2px;
+		font-size: 18px;
+
+	}
+	.logout-btn {
+		padding: 9px 15px;
+		background-color: rgba(0, 136, 169, 1);
+		border-radius: 50px;
+		font-size: 18px;
+	}
 }
