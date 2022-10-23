@@ -4,17 +4,15 @@ import com.app.recipe_app.entity.Recipe;
 
 import com.app.recipe_app.entity.User;
 import com.app.recipe_app.service.RecipeService;
-import com.app.recipe_app.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/recipe")
@@ -31,8 +29,6 @@ public class RecipeController {
                                 HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView();
         if(userCredentials == 0){
-//            System.out.println("No access");
-//            return null;
             try {
                 response.sendRedirect("/user/login");
             }catch (IOException e){
@@ -42,8 +38,9 @@ public class RecipeController {
         List<Recipe> recipes = this.recipeService.getAllRecipeByUserId(userCredentials);
         modelAndView.addObject("recipes", recipes);
         modelAndView.setViewName("view_recipe.html");
+        modelAndView.addObject("recipe", new Recipe());
         return modelAndView;
-//        return this.recipeService.getAllRecipeByUserId(userCredentials);
+
     }
     @GetMapping("/addRecipe")
     public ModelAndView addNewRecipe(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
@@ -58,7 +55,7 @@ public class RecipeController {
         }else{
             User user = new User(userCredentials);
             Recipe recipe = new Recipe("", "", user);
-            modelAndView.setViewName("add_recipe.html");
+            modelAndView.setViewName("create_recipe.html");
             modelAndView.addObject("recipe", recipe);
             return modelAndView;
         }
@@ -69,7 +66,6 @@ public class RecipeController {
     public ModelAndView addNewRecipe(@ModelAttribute Recipe recipe,
                              @CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
                              HttpServletResponse response) {
-//        System.out.print(recipe.getUserId());
         ModelAndView modelAndView = new ModelAndView();
         if(userCredentials == 0){
             try{
@@ -92,16 +88,32 @@ public class RecipeController {
 
     }
 
-
-    @GetMapping("/searchRecipe/{recipeId}")
-    public Optional<Recipe> searchRecipe(@PathVariable("recipeId") Long recipeId,
-                                         @CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials){
+    @PostMapping("/searchRecipe")
+    public ModelAndView searchRecipe(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                     @ModelAttribute Recipe recipe,
+                                     HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView();
         if(userCredentials == 0){
-            System.out.println("No access");
-            return null;
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+                return null;
+            }
+
         }
-        Optional<Recipe> recipe = this.recipeService.searchRecipe(userCredentials, recipeId);
-        return recipe;
+        modelAndView.setViewName("search_recipe.html");
+        List<Recipe> returnedRecipes = this.recipeService.searchAllRecipesByTitle(recipe.getTitle());
+        if(returnedRecipes.size() > 0){
+            modelAndView.addObject("returnedRecipes", returnedRecipes);
+
+        }else{
+
+            modelAndView.addObject("error", "No recipe found with that title");
+        }
+        modelAndView.addObject("recipe", new Recipe());
+        return modelAndView;
     }
 
 

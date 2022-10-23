@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>View recipes</title>
-  <link th:href="@{/css/view_recipe.css}" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>View Meal</title>
+  <link th:href="@{/css/view_meal.css}" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/navbar.css}" />
   <link th:href="@{/css/search_bar.css}" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <!--		<link rel="stylesheet" href="../static/home.css" />-->
+  <!--		<link rel="stylesheet" href="../static/navbar.css" />-->
 </head>
 <body>
 <header>
@@ -25,6 +28,7 @@
 
   </form>
   <nav>
+
     <ul class="links">
       <li><a href="/recipe/all">View Recipe</a></li>
       <li><a href="/user/view_profile">View Profile</a></li>
@@ -32,19 +36,24 @@
       <li><a href="/meal/addNewMeal">Plan a Meal</a></li>
     </ul>
   </nav>
-  <a class="button" href="#"><button class="logout-btn">Log-Out</button></a>
-</header></header>
+  <form class="button" method="post" th:action="@{/user/logout}"><button class="logout-btn">Log-Out</button></form>
+</header>
+
+<!--    <img class="image" src="/food.jpg" alt="food">-->
 <br>
 <br>
-<div class="container d-flex h-100 mx-3">
-  <div th:each="recipe:${recipes}" id="postit">
+<div class="d-flex flex-wrap h-100 mx-3">
+  <div th:each="meal:${meals}" class="postit">
     <span class="dot"></span>
-    <h2 style="font-style: italic;font-weight: bold">Title</h2>
-    <p th:text="${recipe.title}" class="title"></p>
-    <h2 style="font-style: italic;font-weight: bold">Description</h2>
-    <p th:text="${recipe.description}" class="description"></p>
+    <h2 style="font-style: italic;font-weight: bold">Name</h2>
+    <p th:text="${meal.mealName}" class="title"></p>
+    <div th:each="recipe:${meal.recipes}">
+      <h2 style="font-style: italic;font-weight: bold">Title</h2>
+      <p th:text="${recipe.title}" class="title"></p>
+      <h2 style="font-style: italic;font-weight: bold">Description</h2>
+      <p th:text="${recipe.description}" class="description"></p>
+    </div>
   </div>
 </div>
-
 </body>
 </html>

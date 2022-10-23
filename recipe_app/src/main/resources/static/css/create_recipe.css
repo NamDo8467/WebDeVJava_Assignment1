@@ -1,0 +1,88 @@
+.form-box {
+	width: 35%;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+	padding: 15px 15px;
+}
+h1 {
+	text-align: center;
+	font-weight: bold;
+	/*color: white;*/
+}
+.container {
+	padding: 10px 16px;
+}
+
+.create {
+	background-color: #04aa6d;
+	color: white;
+	/*padding: 16px 20px;*/
+	/*margin: 8px 0;*/
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+}
+textarea.form-control {
+	resize: none;
+}
+#title,
+textarea {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	display: inline-block;
+	border: none;
+	/*background-color: #f1f1f1 !important;*/
+}
+#title:focus,
+textarea:focus {
+	/*background-color: #ddd !important;*/
+	outline: none;
+}
+
+.bg-image {
+	height: 100vh;
+	background-image: url("../images/food.jpg");
+	z-index: -1;
+	opacity: 0.5;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.form-box {
+	 background-color: rgb(0, 0, 0); /* Fallback color */
+	 background-color: rgba(0, 0, 0, 0.5); /* Black w/opacity/see-through */
+	 color: rgb(0, 0, 0);
+	 font-weight: bolder;
+	 font-style: italic;
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	/*height: 70%;*/
+	 font-size: 20px;
+	 transform: translate(-50%, -50%);
+	 z-index: 2;
+ }
+
+@media only screen and (max-height: 900px) {
+	/*body{*/
+	/*	overflow: visible;*/
+	/*}*/
+	.form-box {
+		margin-top:5px;
+		padding: 10px 15px 0 15px;
+		background-color: rgb(0, 0, 0); /* Fallback color */
+		background-color: rgba(0, 0, 0, 0.5); /* Black w/opacity/see-through */
+		color: rgb(0, 0, 0);
+		font-weight: bolder;
+		font-style: italic;
+		position: absolute;
+		top: 60%;
+		left: 50%;
+		font-size: 18px;
+		transform: translate(-50%, -50%);
+		z-index: 2;
+	}
+
+}

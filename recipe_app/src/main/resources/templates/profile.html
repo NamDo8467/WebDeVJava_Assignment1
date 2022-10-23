@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/profile.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link th:href="@{/css/search_bar.css}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet" />
+    <title>Profile</title>
+</head>
+<body>
+<header>
+    <a class="logo" href="/user/home"><img class="logo" th:src="@{/images/logo.png}" alt="logo" /></a>
+    <form class="SearchBox" th:action="@{/recipe/searchRecipe}" method="post" th:object="${recipe}">
+        <input type="text" class="SearchBox-input" th:field="${recipe.title}" placeholder="Search by Title...">
+
+        <button class="SearchBox-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+        </button>
+
+    </form>
+    <nav>
+
+        <ul class="links">
+            <li><a href="/recipe/all">View Recipe</a></li>
+            <li><a href="/user/view_profile">View Profile</a></li>
+            <li><a href="/recipe/addRecipe">Create Recipe</a></li>
+            <li><a href="/meal/addNewMeal">Plan a Meal</a></li>
+        </ul>
+    </nav>
+    <form class="button" method="post" th:action="@{/user/logout}"><button class="logout-btn">Log-Out</button></form>
+</header>
+    <div class="form-box">
+    <form>
+        <div class="container" th:object="${user}">
+          <h1>My Profile</h1>
+          <hr>
+          <!-- Your Image here-->
+<!--          <img src="myImage.png" class="avatar">-->
+<!--          <hr>-->
+          <table id="myDetail">
+            <tr>
+              <th >Name</th>
+            </tr>
+            <tr>
+              <td class="data" th:text="${user.name}">John Doe</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+              </tr>
+              <tr>
+                <td class="data" th:text="${user.username}">johnDoe@gmail.come</td>
+              </tr>
+<!--              <tr>-->
+<!--                <th>Address</th>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td class="data">No : 234, Prince Street, Main Rd</td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <th>Country</th>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td id="data">Alfreds Futterkiste</td>-->
+<!--              </tr>-->
+          </table>
+          <hr>
+      </form>
+    </div>
+</body>
+</html>

@@ -37,7 +37,6 @@ hr {
     margin-bottom: 25px;
 }
 
-
 .register-btn {
     background-color: #04AA6D;
     color: white;
@@ -58,9 +57,41 @@ a {
     color: dodgerblue;
 }
 
-
 .signin {
     background-color: #f1f1f1;
     text-align: center;
     padding: 2px;
+}
+
+@media only screen and (max-height: 900px) {
+    img{
+        width:200px;
+        height: 100px;
+    }
+    .form-box{
+        width: 30%;
+        height:90vh;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    .register-btn {
+        padding: 10px 14px;
+        margin: 4px 0;
+        cursor: pointer;
+        opacity: 0.9;
+    }
+
+    input[type=text], input[type=password], input[type=email] {
+        width: 100%;
+        padding: 10px;
+        margin: 3px 0 12px 0;
+        display: inline-block;
+        background: #f1f1f1;
+    }
+
+    hr {
+        margin-bottom: 20px;
+    }
 }

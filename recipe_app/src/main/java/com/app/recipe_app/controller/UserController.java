@@ -1,4 +1,5 @@
 package com.app.recipe_app.controller;
+import com.app.recipe_app.entity.Recipe;
 import com.app.recipe_app.entity.User;
 
 import com.app.recipe_app.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -29,15 +31,55 @@ public class UserController {
     }
 
     //This method means to be deleted after the project is finished
-    @GetMapping("/all")
-    public ModelAndView getAllUsers(){
+
+    @GetMapping("/home")
+    public ModelAndView home(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                             HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("all_users.html");
-        System.out.println(userService.getAllUsers());
-        List<User> users = userService.getAllUsers();
-        modelAndView.addObject("users", users);
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch (IOException e){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
+        }
+        modelAndView.setViewName("home.html");
+        modelAndView.addObject("recipe", new Recipe());
+
         return modelAndView;
-//        return userService.getAllUsers();
+    }
+
+        /* This method means to be deleted after the project is finished */
+
+//    @GetMapping("/all")
+//    public ModelAndView getAllUsers(){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("all_users.html");
+//        System.out.println(userService.getAllUsers());
+//        List<User> users = userService.getAllUsers();
+//        modelAndView.addObject("users", users);
+//        return modelAndView;
+//    }
+
+    @GetMapping("/view_profile")
+    public ModelAndView getProfile(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials){
+        ModelAndView modelAndView = new ModelAndView();
+
+        Optional<User> user = userService.getUserById(userCredentials);
+//        List<User> users = userService.getAllUsers();
+        if(user.isPresent()){
+            modelAndView.setViewName("profile.html");
+            modelAndView.addObject("user", user.get());
+            modelAndView.addObject("recipe", new Recipe());
+
+
+        }else{
+            modelAndView.setViewName("error.html");
+        }
+
+        return modelAndView;
     }
 
     // This method means to be deleted after the project is finished
@@ -83,7 +125,7 @@ public class UserController {
             // add cookie to response
             response.addCookie(cookie);
             try {
-                response.sendRedirect("/recipe/all");
+                response.sendRedirect("/user/home");
             }catch(IOException e){
                 modelAndView.setViewName("error.html");
             }
@@ -100,6 +142,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("registration.html");
         modelAndView.addObject("user", new User());
+
         return modelAndView;
 
     }

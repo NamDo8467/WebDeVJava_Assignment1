@@ -31,8 +31,13 @@ public class RecipeService {
 
     }
 
-    public Optional<Recipe> searchRecipe(Long userId, Long recipeId) {
-        Optional<Recipe> recipe = recipeRepository.getRecipeByUserIdAndId(userId, recipeId);
-        return recipe;
+    public List<Recipe> searchAllRecipesByTitle(String title) {
+        List<Recipe> recipes = recipeRepository.getAllByTitle(title);
+        return recipes;
     }
+
+    public Optional<Recipe> getRecipeById(Long id){
+        return recipeRepository.findById(id);
+    }
+
 }

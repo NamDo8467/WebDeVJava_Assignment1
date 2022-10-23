@@ -1,0 +1,74 @@
+* {box-sizing: border-box}
+
+/* Add padding to containers */
+.container {
+  padding: 1px 16px;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.form-box{
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    margin-top: 30px;
+    padding:25px;
+}
+
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+label{
+    font-size: medium;
+}
+
+#myDetail {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #myDetail td, #myDetail th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #myDetail tr:nth-child(even){
+      background-color: #f2f2f2;
+  }
+  
+  #myDetail tr:hover {background-color: #ddd;}
+  
+  #myDetail th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0caf76;
+    color: #131212;
+
+  }
+
+  /*.avatar {*/
+  /*  vertical-align: middle;*/
+  /*  width: 150px;*/
+  /*  height: 150px;*/
+  /*  margin-left: 140px;*/
+  /*  border-radius: 50%;*/
+  /*}*/
+
+@media only screen and (max-height: 900px) {
+    .form-box{
+        width: 35%;
+        margin-top: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        padding:20px;
+    }
+
+}

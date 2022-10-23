@@ -23,6 +23,14 @@ public class Recipe {
     public Recipe(){
 
     }
+    public Recipe(Long id){
+        this.id = id;
+    }
+    public Recipe(String title, String description, User user){
+        this.title = title;
+        this.description = description;
+        this.user = user;
+    }
 
     public User getUser() {
         return user;
@@ -32,13 +40,6 @@ public class Recipe {
         this.user = user;
     }
 
-
-
-    public Recipe(String title, String description, User user){
-        this.title = title;
-        this.description = description;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;

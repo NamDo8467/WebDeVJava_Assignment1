@@ -20,8 +20,8 @@ public class UserService {
     }
 
     //This method means to be deleted after the project is finished
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public Optional<User> getUserById(Long userId){
+        return userRepository.findById(userId);
     }
 
     public Optional<User> login(String username, String password){

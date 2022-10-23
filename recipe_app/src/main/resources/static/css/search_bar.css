@@ -1,0 +1,56 @@
+:root {
+  --primary-color: white;
+  --accent-color: #f50057;
+  --height: 3em;
+  --text-color: #263238;
+  --body-color: #80deea;
+  --main-font: 'roboto';
+  --font-bold: 700;
+  --font-regular: 400;
+}
+* { box-sizing: border-box }
+input,
+.SearchBox-button {
+  border: none;
+  background: none;
+  outline: 0;
+}
+.SearchBox-button {cursor: pointer}
+.SearchBox-input::placeholder {
+  color: #696666;
+  opacity: .4;
+}
+
+.SearchBox {
+  display: flex;
+  border-radius: var(--height);
+  background-color: var(--primary-color);
+  height: var(--height);
+}
+.SearchBox:hover .SearchBox-input {
+  padding-left: 1em ;
+  padding-right: 1em;
+  width: 240px;
+}
+.SearchBox-input {
+  width: 0;
+  font-size: 1.2em;
+  color: black;
+  transition: .45s;
+}
+.SearchBox-button {
+  border-radius: 50%;
+  width: 4em;
+  height: 3em;
+  background-color: white;
+  transition: .3s;
+}
+.SearchBox-button:active  {
+  transform: scale(.65);
+}
+
+@media screen and (min-width: 400px){
+  .SearchBox:hover .SearchBox-input {
+    width: 500px;
+  }
+}
