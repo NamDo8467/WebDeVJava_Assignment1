@@ -46,7 +46,9 @@
   <div th:each="meal:${meals}" class="postit">
     <span class="dot"></span>
     <h2 style="font-style: italic;font-weight: bold">Name</h2>
-    <p th:text="${meal.mealName}" class="title"></p>
+    <p th:text="${meal.mealName}" class="meal-name"></p>
+    <h2 style="font-style: italic;font-weight: bold">Date Added</h2>
+    <p th:text="${meal.dateAdded}" class="date-added"></p>
     <div th:each="recipe:${meal.recipes}">
       <h2 style="font-style: italic;font-weight: bold">Title</h2>
       <p th:text="${recipe.title}" class="title"></p>

@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -87,8 +89,9 @@ public class MealController {
             }
         }
         List<Recipe> recipes = recipeService.getAllRecipeByUserId(userCredentials);
-        Date date = new Date();
+//        Date date = new Date();
 
+        String date = "";
         String mealName = "";
         String recipeId = "";
 
@@ -107,10 +110,10 @@ public class MealController {
 
     @PostMapping("/addNewMeal")
     public ModelAndView addMeal(@ModelAttribute("mealName") String mealName,
-                                @ModelAttribute Date dateAdded,
+                                @ModelAttribute("dateAdded") String dateAdded,
                                 @ModelAttribute("recipeId") String recipeId,
                                 @CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
-                                HttpServletResponse response){
+                                HttpServletResponse response) throws ParseException {
         ModelAndView modelAndView = new ModelAndView();
         if(userCredentials == 0){
             try{
@@ -122,10 +125,12 @@ public class MealController {
                 return modelAndView;
             }
         }
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateAdded);
+
 
         Meal meal = new Meal();
         meal.setMealName(mealName);
-        meal.setDateAdded(dateAdded);
+        meal.setDateAdded(date);
 
         Optional<Recipe> recipeMeal = recipeService.getRecipeById(Long.parseLong(recipeId));
         if(recipeMeal.isPresent()){
