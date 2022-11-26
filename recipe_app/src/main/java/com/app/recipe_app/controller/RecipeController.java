@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -279,4 +280,60 @@ public class RecipeController {
         return modelAndView;
     }
 
+    @PostMapping("/removeFavorite/{id}")
+    public ModelAndView removeFavorite(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                    HttpServletResponse response,
+                                    @ModelAttribute Recipe recipe) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }else{
+            try {
+                Optional<Recipe> recipeFromDatabase = recipeService.getRecipeById(recipe.getId());
+                if(recipeFromDatabase.isPresent()){
+                    recipeFromDatabase.get().setFavorite(false);
+                    recipeService.addNewRecipe(recipeFromDatabase.get());
+                    response.sendRedirect("/recipe/all");
+                    return null;
+                }else{
+                    modelAndView.setViewName("error.html");
+                }
+
+            }catch (IOException e){
+                modelAndView.setViewName("home.html");
+            }
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/viewFavorite")
+    public ModelAndView viewFavorite(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try {
+                response.sendRedirect("/user/login");
+            }catch (IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }
+        List<Recipe> recipes = this.recipeService.getAllRecipeByUserId(userCredentials);
+        List<Recipe> favoriteRecipes = new ArrayList<Recipe>();
+
+        for(int i =0; i< recipes.size();i++){
+            if(recipes.get(i).isFavorite() == true){
+                favoriteRecipes.add(recipes.get(i));
+            }
+        }
+        modelAndView.addObject("favoriteRecipes", favoriteRecipes);
+        modelAndView.setViewName("view_favorite.html");
+        modelAndView.addObject("recipe", new Recipe());
+        return modelAndView;
+
+    }
 }

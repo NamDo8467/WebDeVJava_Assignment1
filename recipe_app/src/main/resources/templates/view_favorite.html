@@ -36,14 +36,9 @@
 </header>
 <br>
 <br>
-  <div class="container mb-3">
-        <form method="get" th:action="@{/recipe/viewFavorite}">
-          <button style="border:none;background-color: #80deea;padding: 10px; border-radius: 5px">View Favorites</button>
-        </form>
-  </div>
-
+<h1 style="text-align: center; color: white; margin-bottom: 30px;">Favorite Recipes</h1>
 <div class="container d-flex h-100 mx-3">
-  <div th:each="recipe:${recipes}" id="postit">
+  <div th:each="recipe:${favoriteRecipes}" id="postit">
     <span class="dot"></span>
     <h2 style="font-style: italic;font-weight: bold">Title</h2>
     <p th:text="${recipe.title}" class="title"></p>
@@ -53,8 +48,8 @@
     <p th:text="${recipe.isFavorite}" class="description"></p>
     <a style="display: inline; margin-right: 5px" th:href="@{'/recipe/edit/' + ${recipe.id}}">Edit</a>
     <a style="display: inline" th:href="@{'/recipe/delete/' + ${recipe.id}}">Delete</a>
-    <form method="post" th:action="@{'/recipe/addFavorite/' + ${recipe.id}}" th:object="${recipe}">
-      <button style="display: inline; margin-right: 5px">Mark as Favorite</button>
+    <form method="post" th:action="@{'/recipe/removeFavorite/' + ${recipe.id}}" th:object="${recipe}">
+      <button style="display: inline; margin-right: 5px">Remove from Favorite</button>
     </form>
 
   </div>
