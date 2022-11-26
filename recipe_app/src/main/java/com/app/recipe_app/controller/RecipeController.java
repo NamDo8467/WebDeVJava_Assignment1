@@ -209,8 +209,6 @@ public class RecipeController {
                                  HttpServletResponse response,
                                  @ModelAttribute Recipe recipe) {
         ModelAndView modelAndView = new ModelAndView();
-//        System.out.println(recipe);
-//        System.out.println(id);
         if(userCredentials == 0){
             try{
                 response.sendRedirect("/user/login");

@@ -7,6 +7,7 @@ import com.app.recipe_app.service.MealService;
 import com.app.recipe_app.service.RecipeService;
 import com.app.recipe_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,9 +62,9 @@ public class MealController {
             }
         }
         List<Meal> meals = mealService.getAllMeals(userCredentials);
-        for(Meal m : meals){
-            System.out.println(m.getRecipes());
-        }
+//        for(Meal m : meals){
+//            System.out.println(m.getRecipes());
+//        }
         if(meals.size() == 0 ){
             modelAndView.addObject("noMeal", "There is not meal");
         }else{
@@ -89,7 +90,6 @@ public class MealController {
             }
         }
         List<Recipe> recipes = recipeService.getAllRecipeByUserId(userCredentials);
-//        Date date = new Date();
 
         String date = "";
         String mealName = "";
@@ -99,7 +99,6 @@ public class MealController {
         modelAndView.setViewName("plan_meal.html");
         modelAndView.addObject("dateAdded", date);
         modelAndView.addObject("mealName", mealName);
-        modelAndView.addObject("recipeMeal", recipes);
 
         modelAndView.addObject("recipesA", recipes);
 
@@ -107,7 +106,6 @@ public class MealController {
         modelAndView.addObject("recipe", new Recipe());
         return modelAndView;
     }
-
     @PostMapping("/addNewMeal")
     public ModelAndView addMeal(@ModelAttribute("mealName") String mealName,
                                 @ModelAttribute("dateAdded") String dateAdded,
@@ -158,4 +156,150 @@ public class MealController {
 
     }
 
+    @GetMapping("/edit/{id}")
+    public ModelAndView addNewMeal(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                   HttpServletResponse response,
+                                   @PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
+        }
+        List<Recipe> recipes = recipeService.getAllRecipeByUserId(userCredentials);
+
+        String recipeId = "";
+
+        Optional<Meal> editedMeal = mealService.getMealById(id);
+
+        String date = "";
+        String mealName = "";
+        if(editedMeal.isPresent()){
+            modelAndView.setViewName("edit_meal.html");
+            modelAndView.addObject("editedMeal", editedMeal.get());
+            modelAndView.addObject("dateAddedString", date);
+            modelAndView.addObject("mealName", mealName);
+            modelAndView.addObject("recipesA", recipes);
+            modelAndView.addObject("recipeId", recipeId);
+            modelAndView.addObject("recipe", new Recipe());
+        }else{
+            modelAndView.setViewName("error.html");
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/edit")
+    public ModelAndView editMeal(
+//            @ModelAttribute("mealName") String mealName,
+//                                @ModelAttribute("dateAddedString") String dateAddedString,
+                                @ModelAttribute("recipeId") String recipeId,
+                                @ModelAttribute("editedMeal") Meal editedMeal,
+                                @CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                HttpServletResponse response) throws ParseException {
+
+
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch(IOException e){
+                modelAndView.addObject("recipe", new Recipe());
+                modelAndView.setViewName("home.html");
+                return modelAndView;
+            }
+        }
+
+        Optional<Recipe> recipeMeal = recipeService.getRecipeById(Long.parseLong(recipeId));
+        if(recipeMeal.isPresent()){
+            List<Recipe> recipes = new ArrayList<Recipe>();
+            recipes.add(recipeMeal.get());
+            editedMeal.setRecipes(recipes);
+
+        }
+
+        Optional<Meal> mealFromDatabase = mealService.getMealById(editedMeal.getId());
+
+        if(mealFromDatabase.isPresent()){
+            try{
+                mealFromDatabase.get().setMealName(editedMeal.getMealName());
+                mealFromDatabase.get().setRecipes(editedMeal.getRecipes());
+                mealService.addNewMeal(mealFromDatabase.get());
+                response.sendRedirect("/user/home");
+                return null;
+            }catch(IOException e){
+                modelAndView.addObject("recipe", new Recipe());
+                modelAndView.setViewName("home.html");
+
+            }
+
+        }
+        return modelAndView;
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteView(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                               HttpServletResponse response,
+                               @PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
+        }else{
+            Optional<Meal> deleteMeal = mealService.getMealById(id);
+            if(deleteMeal.isPresent()){
+                modelAndView.addObject("deleteMeal", deleteMeal.get());
+                modelAndView.addObject("recipe", new Recipe());
+                modelAndView.setViewName("delete_meal.html");
+            }else{
+                modelAndView.setViewName("error.html");
+            }
+
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/deleteMeal")
+    public ModelAndView delete(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                               HttpServletResponse response,
+                               @ModelAttribute Meal deleteMeal){
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+                return null;
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
+        }else{
+            Optional<Meal> mealFromDatabase = mealService.getMealById(deleteMeal.getId());
+            if(mealFromDatabase.isPresent()){
+                mealService.deleteMeal(mealFromDatabase.get());
+            }else{
+                modelAndView.setViewName("error.html");
+            }
+
+            try{
+                response.sendRedirect("/meal/viewMeal");
+                return null;
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+            }
+
+        }
+
+        return modelAndView;
+    }
 }

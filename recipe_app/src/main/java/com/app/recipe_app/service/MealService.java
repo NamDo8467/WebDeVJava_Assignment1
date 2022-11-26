@@ -34,9 +34,16 @@ public class MealService {
 //        return mealRepository.getMealByMealNameAndDateAdded(mealName, dateAdded);
 //    }
 
+    public Optional<Meal> getMealById(Long id){
+        return mealRepository.findById(id);
+    }
     public void addNewMeal(Meal meal) {
 
         mealRepository.save(meal);
+    }
+
+    public void deleteMeal(Meal meal){
+        mealRepository.delete(meal);
     }
 
 }
