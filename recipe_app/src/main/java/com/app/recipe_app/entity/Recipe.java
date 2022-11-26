@@ -78,6 +78,14 @@ public class Recipe {
         isFavorite = favorite;
     }
 
+    public boolean isShoppingList() {
+        return isShoppingList;
+    }
+
+    public void setShoppingList(boolean shoppingList) {
+        isShoppingList = shoppingList;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +

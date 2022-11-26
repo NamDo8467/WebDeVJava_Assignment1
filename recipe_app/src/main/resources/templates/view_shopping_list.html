@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>View recipes</title>
+  <title>Shopping List</title>
   <link th:href="@{/css/view_recipe.css}" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/navbar.css}" />
   <link th:href="@{/css/search_bar.css}" rel="stylesheet">
@@ -44,29 +44,29 @@
 </header>
 <br>
 <br>
-  <div class="container mb-3">
-        <form method="get" th:action="@{/recipe/viewFavorite}">
-          <button style="border:none;background-color: #80deea;padding: 10px; border-radius: 5px">View Favorites</button>
-        </form>
-  </div>
-
+<!--<div class="container mb-3">-->
+<!--  <form method="get" th:action="@{/recipe/viewFavorite}">-->
+<!--    <button style="border:none;background-color: #80deea;padding: 10px; border-radius: 5px">View Favorites</button>-->
+<!--  </form>-->
+<!--</div>-->
+<h1 style="text-align: center; color: white; margin-bottom: 30px;">Shopping List</h1>
 <div class="container d-flex h-100 mx-3">
-  <div th:each="recipe:${recipes}" id="postit">
+  <div th:each="recipe:${shoppingList}" id="postit">
     <span class="dot"></span>
     <h2 style="font-style: italic;font-weight: bold">Title</h2>
     <p th:text="${recipe.title}" class="title"></p>
     <h2 style="font-style: italic;font-weight: bold">Description</h2>
     <p th:text="${recipe.description}" class="description"></p>
-<!--    <h2 style="font-style: italic;font-weight: bold">Favorite</h2>-->
-<!--    <p th:text="${recipe.isFavorite}" class="description"></p>-->
+    <!--    <h2 style="font-style: italic;font-weight: bold">Favorite</h2>-->
+    <!--    <p th:text="${recipe.isFavorite}" class="description"></p>-->
     <a style="display: inline; margin-right: 5px" th:href="@{'/recipe/edit/' + ${recipe.id}}">Edit</a>
     <a style="display: inline" th:href="@{'/recipe/delete/' + ${recipe.id}}">Delete</a>
     <div class="d-flex justify-between">
-      <form method="post" th:action="@{'/recipe/addFavorite/' + ${recipe.id}}" th:object="${recipe}">
-        <button class="btn btn-primary" style="display: inline; margin-right: 5px">Mark as Favorite</button>
-      </form>
-      <form method="post" th:action="@{'/recipe/addToShoppingList/' + ${recipe.id}}" th:object="${recipe}">
-        <button class="btn btn-warning" style="display: inline; margin-right: 5px">Add to shopping list</button>
+<!--      <form method="post" th:action="@{'/recipe/addFavorite/' + ${recipe.id}}" th:object="${recipe}">-->
+<!--        <button class="btn btn-primary" style="display: inline; margin-right: 5px">Mark as Favorite</button>-->
+<!--      </form>-->
+      <form method="post" th:action="@{'/recipe/removeFromShoppingList/' + ${recipe.id}}" th:object="${recipe}">
+        <button class="btn btn-danger" style="display: inline; margin-right: 5px">Remove from shopping list</button>
       </form>
     </div>
 

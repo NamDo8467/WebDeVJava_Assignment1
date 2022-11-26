@@ -336,4 +336,93 @@ public class RecipeController {
         return modelAndView;
 
     }
+
+
+    @PostMapping("/addToShoppingList/{id}")
+    public ModelAndView addToShoppingList(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                    HttpServletResponse response,
+                                    @ModelAttribute Recipe recipe) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }else{
+            try {
+                Optional<Recipe> recipeFromDatabase = recipeService.getRecipeById(recipe.getId());
+                if(recipeFromDatabase.isPresent()){
+                    recipeFromDatabase.get().setShoppingList(true);
+                    recipeService.addNewRecipe(recipeFromDatabase.get());
+                    response.sendRedirect("/recipe/all");
+                    return null;
+                }else{
+                    modelAndView.setViewName("error.html");
+                }
+
+            }catch (IOException e){
+                modelAndView.setViewName("home.html");
+            }
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/shoppingList")
+    public ModelAndView viewShoppingList(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                     HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try {
+                response.sendRedirect("/user/login");
+            }catch (IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }
+        List<Recipe> recipes = this.recipeService.getAllRecipeByUserId(userCredentials);
+        List<Recipe> shoppingList = new ArrayList<Recipe>();
+
+        for(int i =0; i< recipes.size();i++){
+            if(recipes.get(i).isShoppingList() == true){
+                shoppingList.add(recipes.get(i));
+            }
+        }
+        modelAndView.addObject("shoppingList", shoppingList);
+        modelAndView.setViewName("view_shopping_list.html");
+        modelAndView.addObject("recipe", new Recipe());
+        return modelAndView;
+
+    }
+
+    @PostMapping("/removeFromShoppingList/{id}")
+    public ModelAndView removeFromShoppingList(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                                       HttpServletResponse response,
+                                       @ModelAttribute Recipe recipe) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }else{
+            try {
+                Optional<Recipe> recipeFromDatabase = recipeService.getRecipeById(recipe.getId());
+                if(recipeFromDatabase.isPresent()){
+                    recipeFromDatabase.get().setShoppingList(false);
+                    recipeService.addNewRecipe(recipeFromDatabase.get());
+                    response.sendRedirect("/recipe/all");
+                    return null;
+                }else{
+                    modelAndView.setViewName("error.html");
+                }
+
+            }catch (IOException e){
+                modelAndView.setViewName("home.html");
+            }
+        }
+
+        return modelAndView;
+    }
 }
