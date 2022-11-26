@@ -22,6 +22,9 @@ public class Recipe {
 
     @Column
     private boolean isFavorite = false;
+
+    @Column
+    private boolean isShoppingList = false;
     public Recipe(){
 
     }
@@ -33,6 +36,7 @@ public class Recipe {
         this.description = description;
         this.user = user;
         this.isFavorite = false;
+        this.isShoppingList = false;
     }
 
     public User getUser() {
