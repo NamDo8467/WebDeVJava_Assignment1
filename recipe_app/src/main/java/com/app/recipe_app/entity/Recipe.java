@@ -20,6 +20,8 @@ public class Recipe {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column
+    private boolean isFavorite = false;
     public Recipe(){
 
     }
@@ -30,6 +32,7 @@ public class Recipe {
         this.title = title;
         this.description = description;
         this.user = user;
+        this.isFavorite = false;
     }
 
     public User getUser() {
@@ -63,6 +66,12 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

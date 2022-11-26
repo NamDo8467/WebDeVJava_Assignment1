@@ -36,7 +36,7 @@ public class RecipeService {
         return recipes;
     }
     public void deleteRecipe(Recipe recipe){
-        recipeRepository.delete(recipe);
+        recipeRepository.deleteById(recipe.getId());
     }
 
     public Optional<Recipe> getRecipeById(Long id){

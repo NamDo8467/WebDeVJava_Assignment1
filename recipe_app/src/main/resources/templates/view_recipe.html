@@ -43,8 +43,14 @@
     <p th:text="${recipe.title}" class="title"></p>
     <h2 style="font-style: italic;font-weight: bold">Description</h2>
     <p th:text="${recipe.description}" class="description"></p>
+    <h2 style="font-style: italic;font-weight: bold">Favorite</h2>
+    <p th:text="${recipe.isFavorite}" class="description"></p>
     <a style="display: inline; margin-right: 5px" th:href="@{'/recipe/edit/' + ${recipe.id}}">Edit</a>
     <a style="display: inline" th:href="@{'/recipe/delete/' + ${recipe.id}}">Delete</a>
+    <form method="post" th:action="@{'/recipe/addFavorite/' + ${recipe.id}}" th:object="${recipe}">
+      <button style="display: inline; margin-right: 5px">Mark as Favorite</button>
+    </form>
+
   </div>
 </div>
 

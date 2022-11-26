@@ -1,9 +1,12 @@
 package com.app.recipe_app.controller;
 
+import com.app.recipe_app.entity.Meal;
 import com.app.recipe_app.entity.Recipe;
 
 import com.app.recipe_app.entity.User;
+
 import com.app.recipe_app.service.RecipeService;
+import com.app.recipe_app.service.MealService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,11 +22,13 @@ import java.util.Optional;
 @RequestMapping("/recipe")
 public class RecipeController {
         private final RecipeService recipeService;
+        private final MealService mealService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
+    public RecipeController(RecipeService recipeService, MealService mealService) {
 
+        this.mealService = mealService;
+        this.recipeService = recipeService;
     }
     @GetMapping("/all")
     public ModelAndView findAll(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
@@ -219,9 +224,47 @@ public class RecipeController {
             try {
                 Optional<Recipe> recipeFromDatabase = recipeService.getRecipeById(recipe.getId());
                 if(recipeFromDatabase.isPresent()){
-                    recipeFromDatabase.get().setTitle(recipe.getTitle());
-                    recipeFromDatabase.get().setDescription(recipe.getDescription());
+                    List<Meal> meals = mealService.getAllMeals(userCredentials);
+                    for (int i = 0; i<meals.size();i++){
+                        if(meals.get(i).getRecipes().get(0).getId().equals(recipe.getId())){
+                            mealService.deleteMealByID(meals.get(i).getId());
+                        }
+                    }
+
                     recipeService.deleteRecipe(recipeFromDatabase.get());
+
+
+                    response.sendRedirect("/recipe/all");
+                    return null;
+                }else{
+                    modelAndView.setViewName("error.html");
+                }
+
+            }catch (IOException e){
+                modelAndView.setViewName("home.html");
+            }
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/addFavorite/{id}")
+    public ModelAndView addFavorite(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                               HttpServletResponse response,
+                               @ModelAttribute Recipe recipe) {
+        ModelAndView modelAndView = new ModelAndView();
+        if(userCredentials == 0){
+            try{
+                response.sendRedirect("/user/login");
+            }catch(IOException e){
+                modelAndView.setViewName("error.html");
+            }
+        }else{
+            try {
+                Optional<Recipe> recipeFromDatabase = recipeService.getRecipeById(recipe.getId());
+                if(recipeFromDatabase.isPresent()){
+                    recipeFromDatabase.get().setFavorite(true);
+                    recipeService.addNewRecipe(recipeFromDatabase.get());
                     response.sendRedirect("/recipe/all");
                     return null;
                 }else{
