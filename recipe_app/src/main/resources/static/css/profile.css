@@ -1,8 +1,18 @@
-* {box-sizing: border-box}
-
-/* Add padding to containers */
+.form-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height:80%;
+}
 .container {
-  padding: 1px 16px;
+    padding: 1px 16px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
 }
 
 h1{
@@ -10,65 +20,38 @@ h1{
     margin-bottom: 10px;
 }
 
-.form-box{
-    width: 35%;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-    margin-top: 30px;
-    padding:25px;
+.name-container, .email-container{
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 30%;
+    margin-bottom:20px;
+}
+.name-label, .email-label{
+    font-size: 20px;
+    margin-right: 10px;
+}
+.name-input, .email-input{
+    border-bottom:1px solid red;
+    font-size: 20px;
 }
 
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
 }
-
-label{
-    font-size: medium;
+.update-btn{
+    padding:10px;
+    background-color: orangered;
+    color:white;
+    outline: none;
+    border:none;
 }
-
-#myDetail {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  #myDetail td, #myDetail th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  #myDetail tr:nth-child(even){
-      background-color: #f2f2f2;
-  }
-  
-  #myDetail tr:hover {background-color: #ddd;}
-  
-  #myDetail th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #0caf76;
-    color: #131212;
-
-  }
-
-  /*.avatar {*/
-  /*  vertical-align: middle;*/
-  /*  width: 150px;*/
-  /*  height: 150px;*/
-  /*  margin-left: 140px;*/
-  /*  border-radius: 50%;*/
-  /*}*/
-
-@media only screen and (max-height: 900px) {
-    .form-box{
-        width: 35%;
-        margin-top: 20px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        padding:20px;
-    }
-
+.cancel-btn{
+    text-decoration: none;
+    padding:10px;
+    background-color: #80deea;
+    color:black;
 }
