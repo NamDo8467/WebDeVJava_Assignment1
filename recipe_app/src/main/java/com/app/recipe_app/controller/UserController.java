@@ -14,9 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 //@Controller
@@ -29,8 +27,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    //This method means to be deleted after the project is finished
 
     @GetMapping("/home")
     public ModelAndView home(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
@@ -51,18 +47,6 @@ public class UserController {
         return modelAndView;
     }
 
-        /* This method means to be deleted after the project is finished */
-
-//    @GetMapping("/all")
-//    public ModelAndView getAllUsers(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("all_users.html");
-//        System.out.println(userService.getAllUsers());
-//        List<User> users = userService.getAllUsers();
-//        modelAndView.addObject("users", users);
-//        return modelAndView;
-//    }
-
     @GetMapping("/view_profile")
     public ModelAndView getProfile(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials){
         ModelAndView modelAndView = new ModelAndView();
@@ -81,18 +65,6 @@ public class UserController {
 
         return modelAndView;
     }
-
-    // This method means to be deleted after the project is finished
-
-//    @GetMapping("/redirect")
-//    public void redirect(HttpServletResponse resose){
-//        try {
-//            resose.sendRedirect("/user/all");
-//        }catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//    }
-
     @GetMapping("/login")
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
@@ -101,8 +73,6 @@ public class UserController {
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
-
-    /*This method needs to be edited to best fit*/
 
     @PostMapping("/login")
     public ModelAndView login(@ModelAttribute User user, HttpServletResponse response){
@@ -167,6 +137,34 @@ public class UserController {
         }
         return null;
     }
+
+    @PostMapping("/update")
+    public ModelAndView editProfile(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
+                            @ModelAttribute User user,
+                            HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<User> userFromDatabase = userService.getUserById(userCredentials);
+//        System.out.println(user.getName());
+        try {
+
+            if(userFromDatabase.isPresent()){
+                userFromDatabase.get().setName(user.getName());
+                userFromDatabase.get().setUsername(user.getUsername());
+                userService.registerUser(userFromDatabase.get());
+            }
+
+            response.sendRedirect("/user/home");
+
+        } catch (IOException e) {
+
+//            response.sendRedirect("/user/error");
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
+        return null;
+    }
+
+
 
     @PostMapping("/logout")
     public void logout(@CookieValue(name="userCredentials", defaultValue = "0") Long userCredentials,
