@@ -35,6 +35,9 @@ public class RecipeService {
         List<Recipe> recipes = recipeRepository.getAllByTitle(title);
         return recipes;
     }
+    public void deleteRecipe(Recipe recipe){
+        recipeRepository.delete(recipe);
+    }
 
     public Optional<Recipe> getRecipeById(Long id){
         return recipeRepository.findById(id);

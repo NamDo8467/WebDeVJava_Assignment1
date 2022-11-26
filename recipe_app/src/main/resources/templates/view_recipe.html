@@ -32,8 +32,8 @@
       <li><a href="/meal/addNewMeal">Plan a Meal</a></li>
     </ul>
   </nav>
-  <a class="button" href="#"><button class="logout-btn">Log-Out</button></a>
-</header></header>
+  <form class="button" method="post" th:action="@{/user/logout}"><button class="logout-btn">Log-Out</button></form>
+</header>
 <br>
 <br>
 <div class="container d-flex h-100 mx-3">
@@ -43,6 +43,8 @@
     <p th:text="${recipe.title}" class="title"></p>
     <h2 style="font-style: italic;font-weight: bold">Description</h2>
     <p th:text="${recipe.description}" class="description"></p>
+    <a style="display: inline; margin-right: 5px" th:href="@{'/recipe/edit/' + ${recipe.id}}">Edit</a>
+    <a style="display: inline" th:href="@{'/recipe/delete/' + ${recipe.id}}">Delete</a>
   </div>
 </div>
 
